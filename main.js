@@ -16,7 +16,6 @@ Milestone 3 - Se clicchiamo sul tasto "Mi Piace" cambiamo il colore al testo del
  */
 
 //creiamo un array di oggetti che rappresentano i nostri post
-
 const posts = [
     {
         id: 1,
@@ -24,7 +23,7 @@ const posts = [
         profilePic: 'https://unsplash.it/300/300?image=15',
         date: '06/20/2022',
         text: 'Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.',
-        image: 'https://unsplash.it/300/300?image=1',
+        image: 'https://unsplash.it/300/300?image=171',
         likes: 80
     },
     {
@@ -33,7 +32,7 @@ const posts = [
         profilePic: 'https://unsplash.it/300/300?image=28',
         date: '05/26/2022',
         text: 'Placeat libero ipsa nobis ipsum quibusdam quas harum ut. Distinctio minima iusto. Ad ad maiores et sint voluptate recusandae architecto. Et nihil ullam aut alias.',
-        image: 'https://unsplash.it/300/300?image=2',
+        image: 'https://unsplash.it/300/300?image=6',
         likes: 110
     }
 ];
@@ -76,7 +75,7 @@ function drawAllPosts(postsArray) {
             <div class="post__footer">
                 <div class="likes js-likes">
                     <div class="likes__cta">
-                        <a class="like-button  js-like-button" href="#" data-postid="1">
+                        <a class="like-button  js-like-button" href="#" data-postid="${id}">
                             <i class="like-button__icon fas fa-thumbs-up" aria-hidden="true"></i>
                             <span class="like-button__label">Mi Piace</span>
                         </a>
@@ -90,4 +89,39 @@ function drawAllPosts(postsArray) {
 
         postContainer.innerHTML+= postTemplate
     }
+}
+
+
+// creo le variabili del bottone del like e il relativo numero di likes
+const likesClickable = document.querySelectorAll('.js-like-button');
+const likesNumber = document.querySelectorAll('.js-likes-counter');
+
+for(let i = 0; i < likesClickable.length; i++) {
+    const thisLikeBtn = likesClickable[i];
+
+    // al click sul bottone dei like, questo diventa verde e il numero dei like incrementa di 1
+    thisLikeBtn.addEventListener('click', function(event)
+    {
+        //fermo il comportamento di default del browser
+        event.preventDefault();
+
+        // incrementiamo il like solo se l'elemento su cui clicchiamo non ha già classe .like-button--liked
+        if(!this.classList.contains('like-button--liked')) {
+
+            // aggiungiamo all'elemento la classe .like-button--liked
+            this.classList.add('like-button--liked');
+
+            // prendiamo l'elemento che contiene il numero relativo ai likes
+            const relatedNumberLikeString = likesNumber[i];
+
+            // lo trasformiamo in un numero intero
+            let relatedNumberLike = parseInt(relatedNumberLikeString.innerHTML);
+
+            // incremento di uno il numero dei like al click
+            relatedNumberLike++;
+
+            // sostituisco il numero incrementato 
+            relatedNumberLikeString.innerHTML = relatedNumberLike;
+        }
+    })
 }
